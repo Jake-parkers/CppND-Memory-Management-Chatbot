@@ -40,6 +40,7 @@ ChatBot::~ChatBot()
 
 ChatBot::ChatBot(ChatBot&& source) noexcept : _currentNode{nullptr}, _chatLogic{nullptr}, _rootNode {nullptr} {
     std::cout << "ChatBot Move Constructor\n";
+
     _image = std::move(source._image);
     _currentNode = source._currentNode;
     _chatLogic = source._chatLogic;
@@ -52,6 +53,7 @@ ChatBot::ChatBot(ChatBot&& source) noexcept : _currentNode{nullptr}, _chatLogic{
 
 ChatBot &ChatBot::operator=(ChatBot &&source) noexcept {
     std::cout << "ChatBot Move Assignment\n";
+
     if (this == &source) return *this;
 
     _image = std::move(source._image);
