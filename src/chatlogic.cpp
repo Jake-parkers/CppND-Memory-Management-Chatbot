@@ -204,7 +204,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
         }
     }
 
-    ChatBot chatbot("./images/chatbot.png");
+    ChatBot chatbot("../images/chatbot.png");
     SetChatbotHandle(&chatbot);
     chatbot.SetChatLogicHandle(this);
     chatbot.SetRootNode(rootNode);
@@ -219,7 +219,7 @@ void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)
     _panelDialog = panelDialog;
 }
 
-void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
+void ChatLogic::SetChatbotHandle(ChatBot* chatbot)
 {
     _chatBot = chatbot;
 }

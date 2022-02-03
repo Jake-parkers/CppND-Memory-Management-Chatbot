@@ -27,7 +27,7 @@ ChatBot::ChatBot(std::string filename)
     _rootNode = nullptr;
 
     // load image into heap memory
-    _image = std::make_unique<wxBitmap>(filename, wxBITMAP_TYPE_PNG);
+    _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
 ChatBot::~ChatBot()
@@ -38,15 +38,48 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 
+
+ChatBot::ChatBot(const ChatBot &source) {
+    std::cout << "ChatBot Copy Constructor\n";
+
+    if (_image != NULL) {
+        delete _image;
+        _image = NULL;
+    }
+    _image = new wxBitmap(*source._image);
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+}
+
+
+ChatBot &ChatBot::operator=(const ChatBot &source) {
+    std::cout << "ChatBot Copy Assignment\n";
+
+    if (this == &source){
+        return *this;
+    }
+    delete _image;
+    _image = NULL;
+
+    _image = new wxBitmap(*source._image);
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+
+    return *this;
+
+}
+
 ChatBot::ChatBot(ChatBot&& source) noexcept : _currentNode{nullptr}, _chatLogic{nullptr}, _rootNode {nullptr} {
     std::cout << "ChatBot Move Constructor\n";
 
-    _image = std::move(source._image);
-    _currentNode = source._currentNode;
+    _image = source._image;
     _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
+    _chatLogic->SetChatbotHandle(this);
 
-    source._currentNode = nullptr;
+    source._image = NULL;
     source._chatLogic = nullptr;
     source._rootNode = nullptr;
 }
@@ -56,12 +89,12 @@ ChatBot &ChatBot::operator=(ChatBot &&source) noexcept {
 
     if (this == &source) return *this;
 
-    _image = std::move(source._image);
-    _currentNode = source._currentNode;
+    _image = source._image;
     _chatLogic = source._chatLogic;
     _rootNode = source._rootNode;
+    _chatLogic->SetChatbotHandle(this);
 
-    source._currentNode = nullptr;
+    source._image = NULL;
     source._chatLogic = nullptr;
     source._rootNode = nullptr;
     return *this;
